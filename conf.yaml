@@ -1,0 +1,18 @@
+
+#-  monitor:
+#    patch: /tmp/teste2
+#    event: "[IN_MODIFY,IN_DELETE,IN_OPEN,IN_ATTRIB]"
+#    commands:
+#      - ls
+-  monitor:
+    patch: /tmp/fabio
+    exclude: ".swp"
+    event: "[IN_MODIFY]"
+    commands:
+      - ls
+
+-  monitor:
+    patch: /tmp/teste2
+    event: "[IN_MODIFY]"
+    commands:
+      - ls
