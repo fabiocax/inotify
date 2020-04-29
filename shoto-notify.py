@@ -67,31 +67,35 @@ class Monitory:
             print('CMD:','IN_ACCESS',cmdl,self.dir,e)    
         
 def parallel_mon(line):
-    print('Monitoring:',line['monitor']['patch'],'('+line['monitor']['event']+')') 
+    print('Monitoring:',line['monitor']['patch'],'('+', '.join(line['monitor']['event'])+')') 
 
     patch=line['monitor']['patch']
 
     try:
-        exclude_files=line['monitor']['exclude'].split(',')
+        exclude_files=line['monitor']['exclude']
     except:
         exclude_files=[]
 
     check_events=line['monitor']['event']
     include_dir=False
-    
+
     i = inotify.adapters.InotifyTree(patch)
+
+
     moni=Monitory()        
     for event in i.event_gen(yield_nones=False):
         if event[1][0] in check_events:
             if not 'IN_ISDIR' in event[1] or include_dir == False:
-                if not event[3] in exclude_files :
+                if not '/'.join(event[2:4]).replace(patch,'') in exclude_files :
                     moni.events(event,line)
 
 class Execs():
-    def __init__(self,conf='conf.yaml'):
-        self.config = conf
+    def __init__(self):
+        pass
+        
 
-    def exec(self):
+    def exec(self,conf='conf.yaml'):
+        self.config = conf
         with open(self.config) as f:    
             self.data = yaml.load(f, Loader=yaml.FullLoader)
         for line in  self.data:

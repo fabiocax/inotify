@@ -1,0 +1,15 @@
+#-  monitor:
+#    patch: /tmp
+#    exclude: 
+#      - /test/dir/file
+#      - /test
+#    event: 
+#      - IN_CLOSE_WRITE
+#      - IN_MODIFY
+#      - IN_DELETE 
+#      - IN_OPEN
+#      - IN_ATTRIB
+#      - IN_ACCESS
+#
+#    commands:
+#      - ls
